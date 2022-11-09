@@ -1,6 +1,5 @@
 const { config } = require('dotenv');
 
-
 config();
 
 module.exports = {
@@ -13,4 +12,3 @@ module.exports = {
     ssl: process.env.SSL,
   },
 };
-

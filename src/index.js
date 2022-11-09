@@ -16,7 +16,8 @@ const routingRoutes = require('./routes/routing.routes');
 const io = new Server(server, {
   cors: {
     credentials: true,
-    origin: 'https://chatowlapp.onrender.com',
+    origin: '*',
+ 
   },
 });
 
@@ -29,6 +30,7 @@ app.use(
   cors({
     credentials: true,
     origin: true,
+
   })
 );
 app.use((req, res, next) => {
@@ -64,17 +66,17 @@ io.on('connection', (socket) => {
   // console.log('a user connected', socket.id);
 
   socket.on('userConected', (user) => {
-    const userDuplicate = allUsers.find((element) => element.id === user.id);
+    // const userDuplicate = allUsers.find((element) => element.id === user.id);
 
-    if (!userDuplicate) {
+    // if (!userDuplicate) {
       allUsers.push(user);
       socket.broadcast.emit('allUsers', allUsers);
-    }
+    // }
   });
 
   socket.on('userDisconnected', (userLogout) => {
     allUsers = allUsers.filter((e) => e.id !== userLogout.id);
-    socket.broadcast.emit('allUsers', allUsers);
+    socket.broadcast.emit('userLogout', userLogout);
   });
   socket.on('userChanged', (user) => {
     allUsers = allUsers.map((e) => {
